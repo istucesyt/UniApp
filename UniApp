@@ -1,0 +1,45 @@
+epeat
+	
+	display dialog "UniApp est un logiciel gratuit. Pour plus d’informations sur celui-ci et sur son fonctionnement, consultez le répertoire GitHub du projet.
+	
+Utilisez le bouton ci-dessous pour activer le mode UniApp.
+Pour désactiver UniApp, consultez la section Plus d'options." buttons {"Quitter", "🎛 Activer UniApp", "Plus d'options >"} default button 2 with title "UniApp"
+	set choice to button returned of result
+	
+	if choice is "Plus d'options >" then
+		display dialog "Plus d'options :" buttons {"< Retour", "🎛 Désactiver UniApp", "À propos"} default button 2 with title "UniApp"
+		set choice to button returned of result
+	end if
+	
+	if choice is "À propos" then
+		display dialog "Version 1.0 build 1
+2023, Astuces iOS & iStuces
+
+Pour toute suggestion ou tout signalement, merci de contacter istucesyt@gmail.com" with title "À propos d'UniApp" buttons {"Fermer"} with icon note default button 1
+	end if
+	
+	if choice is "🎛 Désactiver UniApp" then
+		display dialog "Le mode UniApp sera désactivé.
+⚠️ Le Dock va être relancé." with icon caution with title "Avertissement" buttons {"Continuer"} default button 1
+		delay 0.5
+		do shell script "defaults write com.apple.dock single-app -bool FALSE; killall Dock"
+		delay 1
+		display dialog "Le mode UniApp a été désactivé." with title "UniApp" buttons {"OK"} default button 1
+	end if
+	
+	if choice is "🎛 Activer UniApp" then
+		display dialog "Le mode UniApp sera activé.
+⚠️ Le Dock va être relancé." with icon caution with title "Avertissement" buttons {"Continuer"} default button 1
+		delay 0.5
+		do shell script "defaults write com.apple.dock single-app -bool TRUE; killall Dock"
+		delay 1
+		display dialog "Le mode UniApp a été activé." with title "UniApp" buttons {"OK"} default button 1
+	end if
+	
+	if choice is "Quitter" then
+		tell application "UniApp"
+			quit
+		end tell
+	end if
+	
+end repeat
