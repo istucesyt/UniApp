@@ -4,7 +4,7 @@
 Une seule fenêtre à l'écran. Sans Stage Manager.
 
 ## ☕️ À propos
-UniApp vous permet de masquer toute fenêtre à l'arrière-plan, automatiquement, rapidement, et sans Stage Manager.
+UniApp vous permet de masquer toute fenêtre à l'arrière-plan, automatiquement et rapidement. Cela, sans Stage Manager.
 
 ## 🚀 Prérequis
 L'application nécessite un Mac sous macOS X 10.6 ou ultérieur. Celle-ci est compatible avec Apple Silicon.
