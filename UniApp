@@ -6,34 +6,37 @@ Utilisez le bouton ci-dessous pour activer le mode UniApp.
 Pour désactiver UniApp, consultez la section Plus d'options." buttons {"Quitter", "🎛 Activer UniApp", "Plus d'options >"} default button 2 with title "UniApp"
 	set choice to button returned of result
 	
+	if choice is "Quitter" then
+		exit repeat
+	end if
+	
 	if choice is "Plus d'options >" then
-		display dialog "Plus d'options :" buttons {"< Retour", "🎛 Désactiver UniApp", "À propos"} default button 2 with title "UniApp"
+		display dialog "🛠️ Plus d'options :" buttons {"< Retour", "🎛 Désactiver UniApp", "À propos"} default button 2 with title "UniApp"
 		set choice to button returned of result
 	end if
 	
 	if choice is "À propos" then
-		display dialog "Version 1.0 build 1
-2023, Astuces iOS & iStuces
+		display dialog "Version 1.0.3 (build 3)
+2023, Samuel-F & iStuces
 
 Pour toute suggestion ou tout signalement, merci de contacter istucesyt@gmail.com" with title "À propos d'UniApp" buttons {"Fermer"} with icon note default button 1
 	end if
 	
 	if choice is "🎛 Désactiver UniApp" then
-		display dialog "Le mode UniApp sera désactivé.
-⚠️ Le Dock va être relancé." with icon caution with title "Avertissement" buttons {"Continuer"} default button 1
-		delay 0.5
+		display alert "Le mode UniApp sera désactivé et le dock va être relancé!" buttons {"Continuer"} default button 1
 		do shell script "defaults write com.apple.dock single-app -bool FALSE; killall Dock"
-		delay 1
-		display dialog "Le mode UniApp a été désactivé." with title "UniApp" buttons {"OK"} default button 1
+		do shell script "defaults write com.apple.dock showhidden -bool FALSE; killall Dock"
+		
+		display alert "Le mode UniApp a été désactivé avec succès." buttons {"OK"} default button 1
 	end if
 	
 	if choice is "🎛 Activer UniApp" then
-		display dialog "Le mode UniApp sera activé.
-⚠️ Le Dock va être relancé." with icon caution with title "Avertissement" buttons {"Continuer"} default button 1
+		display alert "Le mode UniApp sera activé et le Dock va être relancé." buttons {"Continuer"} default button 1
 		delay 0.5
 		do shell script "defaults write com.apple.dock single-app -bool TRUE; killall Dock"
+		do shell script "defaults write com.apple.dock showhidden -bool TRUE; killall Dock"
 		delay 1
-		display dialog "Le mode UniApp a été activé." with title "UniApp" buttons {"OK"} default button 1
+		display alert "Le mode UniApp a été activé." buttons {"OK"} default button 1
 	end if
 	
 	if choice is "Quitter" then
