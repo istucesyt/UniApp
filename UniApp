@@ -13,7 +13,7 @@ Utilisez le bouton mis en valeur ci-dessous pour activer un module UniApp." butt
 	end if
 	
 	if choice is "À propos" then
-		display dialog "Version 1.0 (build 4)
+		display dialog "Version 1.0 (build 5)
 2023, Samuel-F & iStuces
 
 Pour toute suggestion ou tout signalement, merci de contacter istucesyt@gmail.com" with title "À propos d'UniApp" buttons {"Fermer"} with icon note default button 1
@@ -31,8 +31,12 @@ Pour toute suggestion ou tout signalement, merci de contacter istucesyt@gmail.co
 			display dialog "Si vous souhaitez uniquement désactiver UniApp, ou désactiver UniApp et désactiver le module d'indication des applications masquées, sélectionnez 🚫 1. Stage Manager pourra être réactivé sans affecter UniApp après désactivation des modules.
 		
 Si vous souhaitez désactiver TOUS les modules dont le module d'affichage des applications actives uniquement dans le Dock, sélectionnez 🚫 2.
-⚠️ Cette option de désactivation réinitialise le Dock aux paramètres d'usine !" buttons {"Annuler", "🚫 1", "🚫 2"} with title "Options de désactivation"
+⚠️ Cette option de désactivation réinitialise le Dock aux paramètres d'usine !" with icon caution buttons {"Revenir", "🚫 1", "🚫 2"} with title "Options de désactivation"
 			set choiceReset to button returned of result
+			
+			if choice is "Revenir" then
+				
+			end if
 			
 			if choiceReset is "🚫 1" then
 				display alert "Les modules UniApp seront désactivés et le Dock va être relancé." buttons {"Continuer"} default button 1
@@ -62,22 +66,36 @@ Si vous souhaitez désactiver TOUS les modules dont le module d'affichage des ap
 		end if
 		
 		if choiceModule is "🟢 Activer UniApp" then
-			display alert "Le mode UniApp sera activé et le Dock va être relancé. Si vous utilisez actuellement macOS Ventura ou version ultérieure, il est conseillé de désactiver Stage Manager pour assurer le bon fonctionnement du mode UniApp." buttons {"Continuer"} default button 1
-			delay 0.5
-			do shell script "defaults write com.apple.dock single-app -bool TRUE"
-			do shell script "defaults write com.apple.WindowManager GloballyEnabled -bool FALSE; killall Dock"
-			delay 1
-			display alert "Le mode UniApp a été activé." buttons {"OK"} default button 1
+			display alert "Le mode UniApp sera activé et le Dock va être relancé. Si vous utilisez actuellement macOS Ventura ou version ultérieure, il est conseillé de désactiver Stage Manager pour assurer le bon fonctionnement du mode UniApp." buttons {"Revenir", "Continuer"} default button 2
+			set choice to button returned of result
+			
+			if choice is "Revenir" then
+				
+			end if
+			
+			if choice is "Continuer" then
+				do shell script "defaults write com.apple.dock single-app -bool TRUE"
+				do shell script "defaults write com.apple.WindowManager GloballyEnabled -bool FALSE; killall Dock"
+				delay 1
+				display alert "Le mode UniApp a été activé." buttons {"OK"} default button 1
+			end if
 		end if
 		
 		if choiceModule is "Indiquer les applications masquées" then
-			display alert "Le mode UniApp sera activé et les icônes des applications masquées apparaîtront désormais transparentes. Le Dock va être relancé. Si vous utilisez actuellement macOS Ventura ou version ultérieure, il est conseillé de désactiver Stage Manager pour assurer le bon fonctionnement du mode UniApp." buttons {"Continuer"} default button 1
-			delay 0.5
-			do shell script "defaults write com.apple.dock single-app -bool TRUE"
-			do shell script "defaults write com.apple.WindowManager GloballyEnabled -bool FALSE"
-			do shell script "defaults write com.apple.dock showhidden -bool TRUE; killall Dock"
-			delay 1
-			display alert "Succès." buttons {"OK"} default button 1
+			display alert "Le mode UniApp sera activé et les icônes des applications masquées apparaîtront désormais transparentes. Le Dock va être relancé. Si vous utilisez actuellement macOS Ventura ou version ultérieure, il est conseillé de désactiver Stage Manager pour assurer le bon fonctionnement du mode UniApp." buttons {"Revenir", "Continuer"} default button 2
+			set choice to button returned of result
+			
+			if choice is "Revenir" then
+				
+			end if
+			
+			if choice is "Continuer" then
+				do shell script "defaults write com.apple.dock single-app -bool TRUE"
+				do shell script "defaults write com.apple.WindowManager GloballyEnabled -bool FALSE"
+				do shell script "defaults write com.apple.dock showhidden -bool TRUE; killall Dock"
+				delay 1
+				display alert "Succès." buttons {"OK"} default button 1
+			end if
 		end if
 		
 		if choiceModule is "Afficher les applications actives uniquement" then
@@ -88,7 +106,6 @@ Si vous souhaitez désactiver TOUS les modules dont le module d'affichage des ap
 			set choice to button returned of result
 			
 			if choice is "CONTINUER" then
-				delay 0.5
 				do shell script "defaults write com.apple.dock single-app -bool TRUE"
 				do shell script "defaults write com.apple.WindowManager GloballyEnabled -bool FALSE"
 				do shell script "defaults write com.apple.dock static-only -bool true; killall Dock"
